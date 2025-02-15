@@ -70,12 +70,19 @@ hourly_data["Surface Pressure"] = hourly_surface_pressure
 hourly_data["Cloud Cover"] = hourly_cloud_cover
 hourly_dataframe = pd.DataFrame(data = hourly_data)
 hfdf = hourly_dataframe.copy()
+# function for cloud cover
+def cloud_cover(cover):
+	if cover >= 100: return "Overcast"
+	elif cover >= 70: return "Mostly Cloudy"
+	elif cover >= 30: return "Partly Cloudy"
+	else: return "Clear"
+
 # UI - Title, Col_Top = Weather
 st.title(f"{location.raw["name"]}")
 col_top = st.columns((1,3), gap="small", border=True)
 with col_top[0]:
 	st.markdown(f"## {current_temperature_2m:.0f}°C")
-	st.markdown(f"Feels like {current_apparent_temperature:.0f}°C<br>{current_cloud_cover:.0f}% cloudy, {current_relative_humidity_2m:.0f}% RH<br><b>{now.time().strftime("%I:%M %p")} ({response.TimezoneAbbreviation().decode()})</b>", 
+	st.markdown(f"Feels like {current_apparent_temperature:.0f}°C<br>{cloud_cover(current_cloud_cover)}, {current_relative_humidity_2m:.0f}% RH<br><b>{now.time().strftime("%I:%M %p")} ({response.TimezoneAbbreviation().decode()})</b>", 
 			 unsafe_allow_html=True)
 with col_top[1]:
 	hfdf["Date"] = hfdf["Time"].dt.date.copy()
