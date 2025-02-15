@@ -77,13 +77,18 @@ def cloud_cover(cover):
 	elif cover >= 70: return "Mostly Cloudy"
 	elif cover >= 30: return "Partly Cloudy"
 	else: return "Clear"
+# Timezone String
+if type(response.TimezoneAbbreviation()) == type(None):
+	tz_string = "GMT"
+else:
+	tz_string = str(response.TimezoneAbbreviation(), encoding="utf-8")
 
 # UI - Title, Col_Top = Weather
 st.title(f"{location.raw["name"]}")
 col_top = st.columns((1,3), gap="small", border=True)
 with col_top[0]:
 	st.markdown(f"## {current_temperature_2m:.0f}°C")
-	st.markdown(f"Feels like {current_apparent_temperature:.0f}°C<br>{cloud_cover(current_cloud_cover)}, {current_relative_humidity_2m:.0f}% RH<br><b>{now.time().strftime("%I:%M %p")} ({response.TimezoneAbbreviation().decode()})</b>", 
+	st.markdown(f"Feels like {current_apparent_temperature:.0f}°C<br>{cloud_cover(current_cloud_cover)}, {current_relative_humidity_2m:.0f}% RH<br><b>{now.time().strftime("%I:%M %p")} ({tz_string})</b>", 
 			 unsafe_allow_html=True)
 with col_top[1]:
 	result = hfdf.groupby("Date").agg({"Temperature": ["mean", "max", "min"], "Precipitation Probability": "mean"})
