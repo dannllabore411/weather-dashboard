@@ -85,7 +85,6 @@ with col_top[0]:
 	st.markdown(f"Feels like {current_apparent_temperature:.0f}°C<br>{cloud_cover(current_cloud_cover)}, {current_relative_humidity_2m:.0f}% RH<br><b>{now.time().strftime("%I:%M %p")} ({response.TimezoneAbbreviation().decode()})</b>", 
 			 unsafe_allow_html=True)
 with col_top[1]:
-	hfdf["Date"] = hfdf["Time"].dt.date.copy()
 	result = hfdf.groupby("Date").agg({"Temperature": ["mean", "max", "min"], "Precipitation Probability": "mean"})
 	col_days = st.columns(5, gap="small")
 	with col_days[0]:
