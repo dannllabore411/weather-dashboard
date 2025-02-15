@@ -70,6 +70,7 @@ hourly_data["Surface Pressure"] = hourly_surface_pressure
 hourly_data["Cloud Cover"] = hourly_cloud_cover
 hourly_dataframe = pd.DataFrame(data = hourly_data)
 hfdf = hourly_dataframe.copy()
+hfdf["Date"] = hfdf["Time"].dt.date
 # function for cloud cover
 def cloud_cover(cover):
 	if cover >= 100: return "Overcast"
